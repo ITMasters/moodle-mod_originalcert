@@ -1,6 +1,6 @@
 <?php
 
-// This file is part of the Certificate module for Moodle - http://moodle.org/
+// This file is part of the originalcert module for Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,9 +16,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Deprecated certificate functions.
+ * Deprecated originalcert functions.
  *
- * @package    mod_certificate
+ * @package    mod_originalcert
  * @copyright  Mark Nelson <markn@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,21 +26,21 @@
 /**
  * Prepare to be print the date -- defaults to time.
  *
- * @deprecated since certificate version 2012052501
- * @param stdClass $certificate
+ * @deprecated since originalcert version 2012052501
+ * @param stdClass $originalcert
  * @param stdClass $course
  * @return string the date
  */
-function certificate_generate_date($certificate, $course) {
-    debugging('certificate_generate_date is deprecated, please use certificate_get_date instead which will
+function originalcert_generate_date($originalcert, $course) {
+    debugging('originalcert_generate_date is deprecated, please use originalcert_get_date instead which will
                return a date in a human readable format.', DEBUG_DEVELOPER);
 
     global $DB, $USER;
 
-    // Set certificate date to current time, can be overwritten later
+    // Set originalcert date to current time, can be overwritten later
     $date = time();
 
-    if ($certificate->printdate == '2') {
+    if ($originalcert->printdate == '2') {
         // Get the enrolment end date
         $sql = "SELECT MAX(c.timecompleted) as timecompleted
                 FROM {course_completions} c
@@ -51,8 +51,8 @@ function certificate_generate_date($certificate, $course) {
                 $date = $timecompleted->timecompleted;
             }
         }
-    } else if ($certificate->printdate > 2) {
-        if ($modinfo = certificate_get_mod_grade($course, $certificate->printdate, $USER->id)) {
+    } else if ($originalcert->printdate > 2) {
+        if ($modinfo = originalcert_get_mod_grade($course, $originalcert->printdate, $USER->id)) {
             $date = $modinfo->dategraded;
         }
     }
@@ -63,14 +63,14 @@ function certificate_generate_date($certificate, $course) {
 /**
  * Prepare to print the course grade.
  *
- * @deprecated since certificate version 2012052501
+ * @deprecated since originalcert version 2012052501
  * @param stdClass $course
  * @return mixed
  */
-function certificate_print_course_grade($course){
-    debugging('certificate_print_course_grade is deprecated, please use certificate_get_grade instead. Ideally
-               you should be using certificate_get_grade in your certificate type which will either get the course
-               or module grade depending on your certificate settings.', DEBUG_DEVELOPER);
+function originalcert_print_course_grade($course){
+    debugging('originalcert_print_course_grade is deprecated, please use originalcert_get_grade instead. Ideally
+               you should be using originalcert_get_grade in your originalcert type which will either get the course
+               or module grade depending on your originalcert settings.', DEBUG_DEVELOPER);
 
     global $USER, $DB;
 
@@ -91,140 +91,140 @@ function certificate_print_course_grade($course){
 /**
  * Prepare to print an activity grade.
  *
- * @deprecated since certificate version 2012052501
+ * @deprecated since originalcert version 2012052501
  * @param stdClass $course
  * @param int $moduleid
  * @return mixed
  */
-function certificate_print_mod_grade($course, $moduleid){
-    debugging('certificate_print_mod_grade is deprecated, please use certificate_get_mod_grade instead. Ideally
-               you should be using certificate_get_grade in your certificate type which will either get the course
-               or module grade depending on your certificate settings.', DEBUG_DEVELOPER);
+function originalcert_print_mod_grade($course, $moduleid){
+    debugging('originalcert_print_mod_grade is deprecated, please use originalcert_get_mod_grade instead. Ideally
+               you should be using originalcert_get_grade in your originalcert type which will either get the course
+               or module grade depending on your originalcert settings.', DEBUG_DEVELOPER);
 
     global $USER;
 
-    return certificate_get_mod_grade($course, $moduleid, $USER->id);
+    return originalcert_get_mod_grade($course, $moduleid, $USER->id);
 }
 
 
 /**
 * Prepare to print an outcome.
 *
-* @deprecated since certificate version 2012052501
+* @deprecated since originalcert version 2012052501
 * @param stdClass $course
 * @param int $moduleid
 * @return mixed
 */
-function certificate_print_outcome($course, $id) {
-    debugging('certificate_print_outcome is deprecated, please use certificate_get_outcome instead', DEBUG_DEVELOPER);
+function originalcert_print_outcome($course, $id) {
+    debugging('originalcert_print_outcome is deprecated, please use originalcert_get_outcome instead', DEBUG_DEVELOPER);
 
-    return certificate_get_outcome($certificate, $course);
+    return originalcert_get_outcome($originalcert, $course);
 }
 
 /**
  * Creates rectangles for line border for A4 size paper.
  *
- * @deprecated since certificate version 2012052501
+ * @deprecated since originalcert version 2012052501
  * @param stdClass $pdf
- * @param stdClass $certificate
+ * @param stdClass $originalcert
  * @return null
  */
-function draw_frame($pdf, $certificate) {
-    debugging('draw_frame is deprecated, please use certificate_draw_frame instead', DEBUG_DEVELOPER);
+function draw_frame($pdf, $originalcert) {
+    debugging('draw_frame is deprecated, please use originalcert_draw_frame instead', DEBUG_DEVELOPER);
 
-    certificate_draw_frame($pdf, $certificate);
+    originalcert_draw_frame($pdf, $originalcert);
 }
 
 /**
  * Creates rectangles for line border for letter size paper.
  *
- * @deprecated since certificate version 2012052501
+ * @deprecated since originalcert version 2012052501
  * @param stdClass $pdf
- * @param stdClass $certificate
+ * @param stdClass $originalcert
  * @return null
  */
-function draw_frame_letter($pdf, $certificate) {
-    debugging('draw_frame_letter is deprecated, please use certificate_draw_frame_letter instead', DEBUG_DEVELOPER);
+function draw_frame_letter($pdf, $originalcert) {
+    debugging('draw_frame_letter is deprecated, please use originalcert_draw_frame_letter instead', DEBUG_DEVELOPER);
 
-    certificate_draw_frame_letter($pdf, $certificate);
+    originalcert_draw_frame_letter($pdf, $originalcert);
 }
 
 /**
  * Prints border images from the borders folder in PNG or JPG formats.
  *
- * @deprecated since certificate version 2012052501
+ * @deprecated since originalcert version 2012052501
  * @param stdClass $pdf;
- * @param stdClass $certificate
+ * @param stdClass $originalcert
  * @param int $x x position
  * @param int $y y position
  * @param int $w the width
  * @param int $h the height
  * @return null
  */
-function print_border($pdf, $certificate, $x, $y, $w, $h) {
-    debugging('print_watermark is deprecated, please use certificate_print_image instead', DEBUG_DEVELOPER);
+function print_border($pdf, $originalcert, $x, $y, $w, $h) {
+    debugging('print_watermark is deprecated, please use originalcert_print_image instead', DEBUG_DEVELOPER);
 
-    certificate_print_image($pdf, $certificate, CERT_IMAGE_BORDER, $x, $y, $w, $h);
+    originalcert_print_image($pdf, $originalcert, CERT_IMAGE_BORDER, $x, $y, $w, $h);
 }
 
 /**
  * Prints watermark images.
  *
- * @deprecated since certificate version 2012052501
+ * @deprecated since originalcert version 2012052501
  * @param stdClass $pdf;
- * @param stdClass $certificate
+ * @param stdClass $originalcert
  * @param int $x x position
  * @param int $y y position
  * @param int $w the width
  * @param int $h the height
  * @return null
  */
-function print_watermark($pdf, $certificate, $x, $y, $w, $h) {
-    debugging('print_watermark is deprecated, please use certificate_print_image instead', DEBUG_DEVELOPER);
+function print_watermark($pdf, $originalcert, $x, $y, $w, $h) {
+    debugging('print_watermark is deprecated, please use originalcert_print_image instead', DEBUG_DEVELOPER);
 
-    certificate_print_image($pdf, $certificate, CERT_IMAGE_WATERMARK, $x, $y, $w, $h);
+    originalcert_print_image($pdf, $originalcert, CERT_IMAGE_WATERMARK, $x, $y, $w, $h);
 }
 
 /**
  * Prints signature images or a line.
  *
- * @deprecated since certificate version 2012052501
+ * @deprecated since originalcert version 2012052501
  * @param stdClass $pdf
- * @param stdClass $certificate
+ * @param stdClass $originalcert
  * @param int $x x position
  * @param int $y y position
  * @param int $w the width
  * @param int $h the height
  * @return null
  */
-function print_signature($pdf, $certificate, $x, $y, $w, $h) {
-    debugging('print_signature is deprecated, please use certificate_print_image instead', DEBUG_DEVELOPER);
+function print_signature($pdf, $originalcert, $x, $y, $w, $h) {
+    debugging('print_signature is deprecated, please use originalcert_print_image instead', DEBUG_DEVELOPER);
 
-    certificate_print_image($pdf, $certificate, CERT_IMAGE_SIGNATURE, $x, $y, $w, $h);
+    originalcert_print_image($pdf, $originalcert, CERT_IMAGE_SIGNATURE, $x, $y, $w, $h);
 }
 
 /**
  * Prints seal images.
  *
- * @deprecated since certificate version 2012052501
+ * @deprecated since originalcert version 2012052501
  * @param stdClass $pdf;
- * @param stdClass $certificate
+ * @param stdClass $originalcert
  * @param int $x x position
  * @param int $y y position
  * @param int $w the width
  * @param int $h the height
  * @return null
  */
-function print_seal($pdf, $certificate, $x, $y, $w, $h) {
-    debugging('print_seal is deprecated, please use certificate_print_image instead', DEBUG_DEVELOPER);
+function print_seal($pdf, $originalcert, $x, $y, $w, $h) {
+    debugging('print_seal is deprecated, please use originalcert_print_image instead', DEBUG_DEVELOPER);
 
-    certificate_print_image($pdf, $certificate, CERT_IMAGE_SEAL, $x, $y, $w, $h);
+    originalcert_print_image($pdf, $originalcert, CERT_IMAGE_SEAL, $x, $y, $w, $h);
 }
 
 /**
  * Sends text to output given the following params.
  *
- * @deprecated since certificate version 2012052501
+ * @deprecated since originalcert version 2012052501
  * @param stdClass $pdf
  * @param int $x horizontal position
  * @param int $y vertical position
@@ -239,10 +239,10 @@ function cert_printtext($pdf, $x, $y, $align, $font, $style, $size, $text) {
     static $hasbeenwarned = false;
 
     if (!$hasbeenwarned) {
-        debugging('cert_printtext is deprecated, please use certificate_print_text instead', DEBUG_DEVELOPER);
+        debugging('cert_printtext is deprecated, please use originalcert_print_text instead', DEBUG_DEVELOPER);
     }
 
     $hasbeenwarned = true;
-    certificate_print_text($pdf, $x, $y, $align, $font, $style, $size, $text);
+    originalcert_print_text($pdf, $x, $y, $align, $font, $style, $size, $text);
 }
 

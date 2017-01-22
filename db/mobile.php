@@ -1,5 +1,5 @@
 <?php
-// This file is part of the Certificate module for Moodle - http://moodle.org/
+// This file is part of the originalcert module for Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,13 +15,13 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Certificate module capability definition
+ * originalcert module capability definition
  *
- * @package    mod_certificate
+ * @package    mod_originalcert
  * @copyright  2016 Juan Leyva <juan@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 $addons = array(
-    "mod_certificate" => array()
+    "mod_originalcert" => array()
 );

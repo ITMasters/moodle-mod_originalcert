@@ -14,9 +14,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Certificate module data generator.
+ * originalcert module data generator.
  *
- * @package    mod_certificate
+ * @package    mod_originalcert
  * @category   test
  * @author     Russell England <russell.england@catalyst-eu.net>
  * @copyright  Catalyst IT Ltd 2013 <http://catalyst-eu.net>
@@ -25,10 +25,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-class mod_certificate_generator extends testing_module_generator {
+class mod_originalcert_generator extends testing_module_generator {
 
     /**
-     * Create new certificate module instance
+     * Create new originalcert module instance
      * @param array|stdClass $record data for module being generated. Requires 'course' key
      *     (an id or the full object). Also can have any fields from add module form.
      * @param null|array $options general options for course module. Since 2.6 it is
@@ -38,7 +38,7 @@ class mod_certificate_generator extends testing_module_generator {
      */
     public function create_instance($record = null, array $options = null) {
         global $CFG;
-        require_once("$CFG->dirroot/mod/certificate/lib.php");
+        require_once("$CFG->dirroot/mod/originalcert/lib.php");
 
         $this->instancecount++;
         $i = $this->instancecount;
@@ -51,14 +51,14 @@ class mod_certificate_generator extends testing_module_generator {
         }
 
         $defaults = array();
-        $defaults['name'] = get_string('pluginname', 'certificate').' '.$i;
-        $defaults['intro'] = 'Test certificate '.$i;
+        $defaults['name'] = get_string('pluginname', 'originalcert').' '.$i;
+        $defaults['intro'] = 'Test originalcert '.$i;
         $defaults['introformat'] = FORMAT_MOODLE;
         $defaults['emailteachers'] = 0;
         $defaults['savecert'] = 0;
         $defaults['reportcert'] = 0;
         $defaults['delivery'] = 0;
-        $defaults['certificatetype'] = 'A4_non_embedded';
+        $defaults['originalcerttype'] = 'A4_non_embedded';
         $defaults['orientation'] = 'L';
         $defaults['borderstyle'] = '0';
         $defaults['bordercolor'] = '0';

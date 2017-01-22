@@ -1,6 +1,6 @@
 <?php
 
-// This file is part of the Certificate module for Moodle - http://moodle.org/
+// This file is part of the originalcert module for Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,24 +16,24 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * A4_non_embedded certificate type
+ * A4_non_embedded originalcert type
  *
- * @package    mod_certificate
+ * @package    mod_originalcert
  * @copyright  Mark Nelson <markn@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-function certificate_get_itm_grade($certificate, $course, $userid = null, $valueonly = false) {
+function originalcert_get_itm_grade($originalcert, $course, $userid = null, $valueonly = false) {
     global $USER;
 
     if (empty($userid)) {
         $userid = $USER->id;
     }
 
-    if ($certificate->printgrade > 0) {
-		if ($certificate->printgrade == 1) {
+    if ($originalcert->printgrade > 0) {
+		if ($originalcert->printgrade == 1) {
             if ($course_item = grade_item::fetch_course_item($course->id)) {
                 $grade = new grade_grade(array('itemid' => $course_item->id, 'userid' => $userid));
                 $course_item->gradetype = GRADE_TYPE_VALUE;
@@ -45,7 +45,7 @@ function certificate_get_itm_grade($certificate, $course, $userid = null, $value
                 $grade = round(str_replace('%', '',$coursegrade->percentage));
             }
         } else {
-			if ($modinfo = certificate_get_mod_grade($course, $certificate->printgrade, $userid)) {
+			if ($modinfo = originalcert_get_mod_grade($course, $originalcert->printgrade, $userid)) {
 				// Check we want to add a prefix to the grade.
 				$grade = round(str_replace('%', '', $modinfo->percentage));
 			}
@@ -70,9 +70,9 @@ function certificate_get_itm_grade($certificate, $course, $userid = null, $value
     return '';
 }
 
-$pdf = new PDF($certificate->orientation, 'mm', 'A4', true, 'UTF-8', false);
+$pdf = new PDF($originalcert->orientation, 'mm', 'A4', true, 'UTF-8', false);
 
-$pdf->SetTitle($certificate->name);
+$pdf->SetTitle($originalcert->name);
 $pdf->SetProtection(array('modify'));
 $pdf->setPrintHeader(false);
 $pdf->setPrintFooter(false);
@@ -81,7 +81,7 @@ $pdf->AddPage();
 
 // Define variables
 // Landscape
-if ($certificate->orientation == 'L') {
+if ($originalcert->orientation == 'L') {
     $x = 10;
     $y = 30;
     $sealx = 230;
@@ -120,33 +120,33 @@ if ($certificate->orientation == 'L') {
 }
 
 // Add images and lines
-certificate_print_image($pdf, $certificate, CERT_IMAGE_BORDER, $brdrx, $brdry, $brdrw, $brdrh);
-certificate_draw_frame($pdf, $certificate);
+originalcert_print_image($pdf, $originalcert, CERT_IMAGE_BORDER, $brdrx, $brdry, $brdrw, $brdrh);
+originalcert_draw_frame($pdf, $originalcert);
 // Set alpha to semi-transparency
 $pdf->SetAlpha(0.2);
-certificate_print_image($pdf, $certificate, CERT_IMAGE_WATERMARK, $wmarkx, $wmarky, $wmarkw, $wmarkh);
+originalcert_print_image($pdf, $originalcert, CERT_IMAGE_WATERMARK, $wmarkx, $wmarky, $wmarkw, $wmarkh);
 $pdf->SetAlpha(1);
-certificate_print_image($pdf, $certificate, CERT_IMAGE_SEAL, $sealx, $sealy, '', '');
-certificate_print_image($pdf, $certificate, CERT_IMAGE_SIGNATURE, $sigx, $sigy, '', '');
+originalcert_print_image($pdf, $originalcert, CERT_IMAGE_SEAL, $sealx, $sealy, '', '');
+originalcert_print_image($pdf, $originalcert, CERT_IMAGE_SIGNATURE, $sigx, $sigy, '', '');
 
 // Add text
 $pdf->SetTextColor(229, 27, 36);
-certificate_print_text($pdf, $x, $y - 20, 'C', 'caladeab', '', 40, 'Certificate of Achievement');
-certificate_print_text($pdf, $x, $y - 2, 'C', 'caladeab', '', 28, 'Short Course: ' . format_string($course->fullname));
+originalcert_print_text($pdf, $x, $y - 20, 'C', 'caladeab', '', 40, 'originalcert of Achievement');
+originalcert_print_text($pdf, $x, $y - 2, 'C', 'caladeab', '', 28, 'Short Course: ' . format_string($course->fullname));
 
 $pdf->SetTextColor(0, 0, 0);
-certificate_print_text($pdf, $x, $y + 36, 'C', 'carlito', '', 14, 'This is to certify that');
-certificate_print_text($pdf, $x, $y + 46, 'C', 'carlitob', '', 20, fullname($USER));
-certificate_print_text($pdf, $x, $y + 60, 'C', 'carlito', '', 14, 'has successfully completed the Short Course');
-certificate_print_text($pdf, $x, $y + 70, 'C', 'carlitob', '', 20, format_string($course->fullname));
+originalcert_print_text($pdf, $x, $y + 36, 'C', 'carlito', '', 14, 'This is to certify that');
+originalcert_print_text($pdf, $x, $y + 46, 'C', 'carlitob', '', 20, fullname($USER));
+originalcert_print_text($pdf, $x, $y + 60, 'C', 'carlito', '', 14, 'has successfully completed the Short Course');
+originalcert_print_text($pdf, $x, $y + 70, 'C', 'carlitob', '', 20, format_string($course->fullname));
 
-certificate_print_text($pdf, $x, $y + 85, 'C', 'carlito', '', 14, 'Grade: ' . certificate_get_itm_grade($certificate, $course));
-if ($certificate->printteacher) {
+originalcert_print_text($pdf, $x, $y + 85, 'C', 'carlito', '', 14, 'Grade: ' . originalcert_get_itm_grade($originalcert, $course));
+if ($originalcert->printteacher) {
     $context = context_module::instance($cm->id);
-    if ($teachers = get_users_by_capability($context, 'mod/certificate:printteacher', '', $sort = 'u.lastname ASC', '', '', '', '', false)) {
+    if ($teachers = get_users_by_capability($context, 'mod/originalcert:printteacher', '', $sort = 'u.lastname ASC', '', '', '', '', false)) {
         if(count($teachers) == 1){
             foreach ($teachers as $teacher) {
-                certificate_print_text($pdf, $x, $y + 97, 'C', 'carlito', '', 14, 'Lecturer: ' . fullname($teacher));
+                originalcert_print_text($pdf, $x, $y + 97, 'C', 'carlito', '', 14, 'Lecturer: ' . fullname($teacher));
             }
         } else {
             $numItems = count($teachers);
@@ -159,15 +159,15 @@ if ($certificate->printteacher) {
                     $lecturers = $lecturers . fullname($teacher) . ', ';
                 }
             }
-            certificate_print_text($pdf, $x, $y + 97, 'C', 'carlito', '', 14, 'Lecturers: ' . $lecturers);
+            originalcert_print_text($pdf, $x, $y + 97, 'C', 'carlito', '', 14, 'Lecturers: ' . $lecturers);
         }
     }
 }
-certificate_print_text($pdf, $x, $y + 109, 'C', 'carlito', '', 14, 'Completed: ' . certificate_get_date($certificate, $certrecord, $course));
-certificate_print_text($pdf, $x, $y + 129, 'C', 'carlito', '', 14, certificate_get_outcome($certificate, $course));
-if ($certificate->printhours) {
-    certificate_print_text($pdf, $x, $y + 139, 'C', 'carlito', '', 14, get_string('credithours', 'certificate') . ': ' . $certificate->printhours);
+originalcert_print_text($pdf, $x, $y + 109, 'C', 'carlito', '', 14, 'Completed: ' . originalcert_get_date($originalcert, $certrecord, $course));
+originalcert_print_text($pdf, $x, $y + 129, 'C', 'carlito', '', 14, originalcert_get_outcome($originalcert, $course));
+if ($originalcert->printhours) {
+    originalcert_print_text($pdf, $x, $y + 139, 'C', 'carlito', '', 14, get_string('credithours', 'originalcert') . ': ' . $originalcert->printhours);
 }
-certificate_print_text($pdf, $x, $codey, 'C', 'carlito', '', 14, certificate_get_code($certificate, $certrecord));
+originalcert_print_text($pdf, $x, $codey, 'C', 'carlito', '', 14, originalcert_get_code($originalcert, $certrecord));
 
-certificate_print_text($pdf, $custx, $custy, 'L', null, null, null, $certificate->customtext);
+originalcert_print_text($pdf, $custx, $custy, 'L', null, null, null, $originalcert->customtext);

@@ -1,6 +1,6 @@
 <?php
 
-// This file is part of the Certificate module for Moodle - http://moodle.org/
+// This file is part of the originalcert module for Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,9 +16,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Language strings for the certificate module
+ * Language strings for the originalcert module
  *
- * @package    mod_certificate
+ * @package    mod_originalcert
  * @copyright  Mark Nelson <markn@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -38,18 +38,18 @@ $string['bordercolor_help'] = 'Since images can substantially increase the size 
 $string['bordergreen'] = 'Green';
 $string['borderlines'] = 'Lines';
 $string['borderstyle'] = 'Border Image';
-$string['borderstyle_help'] = 'The Border Image option allows you to choose a border image from the certificate/pix/borders folder.  Select the border image that you want around the certificate edges or select no border.';
-$string['certificate'] = 'Verification for certificate code:';
-$string['certificate:addinstance'] = 'Add a certificate instance';
-$string['certificate:manage'] = 'Manage a certificate instance';
-$string['certificate:printteacher'] = 'Be listed as a teacher on the certificate if the print teacher setting is on';
-$string['certificate:student'] = 'Retrieve a certificate';
-$string['certificate:view'] = 'View a certificate';
-$string['certificatename'] = 'Certificate Name';
-$string['certificatereport'] = 'Certificates Report';
-$string['certificatesfor'] = 'Certificates for';
-$string['certificatetype'] = 'Certificate Type';
-$string['certificatetype_help'] = 'This is where you determine the layout of the certificate. The certificate type folder includes four default certificates:
+$string['borderstyle_help'] = 'The Border Image option allows you to choose a border image from the originalcert/pix/borders folder.  Select the border image that you want around the certificate edges or select no border.';
+$string['originalcert'] = 'Verification for originalcert code:';
+$string['originalcert:addinstance'] = 'Add a originalcert instance';
+$string['originalcert:manage'] = 'Manage a originalcert instance';
+$string['originalcert:printteacher'] = 'Be listed as a teacher on the certificate if the print teacher setting is on';
+$string['originalcert:student'] = 'Retrieve a certificate';
+$string['originalcert:view'] = 'View a certificate';
+$string['originalcertname'] = 'Certificate Name';
+$string['originalcertreport'] = 'Certificate Report';
+$string['originalcertsfor'] = 'Certificates for';
+$string['originalcerttype'] = 'Certificate Type';
+$string['originalcerttype_help'] = 'This is where you determine the layout of the certificate. The originalcert type folder includes four default certificates:
 A4 Embedded prints on A4 size paper with embedded font.
 A4 Non-Embedded prints on A4 size paper without embedded fonts.
 Letter Embedded prints on letter size paper with embedded font.
@@ -57,7 +57,7 @@ Letter Non-Embedded prints on letter size paper without embedded fonts.
 
 The non-embedded types use the Helvetica and Times fonts.  If you feel your users will not have these fonts on their computer, or if your language uses characters or symbols that are not accommodated by the Helvetica and Times fonts, then choose an embedded type.  The embedded types use the Dejavusans and Dejavuserif fonts.  This will make the pdf files rather large; thus it is not recommended to use an embedded type unless you must.
 
-New type folders can be added to the certificate/type folder. The name of the folder and any new language strings for the new type must be added to the certificate language file.';
+New type folders can be added to the originalcert/type folder. The name of the folder and any new language strings for the new type must be added to the originalcert language file.';
 $string['certify'] = 'This is to certify that';
 $string['code'] = 'Code';
 $string['completiondate'] = 'Course Completion';
@@ -65,39 +65,39 @@ $string['course'] = 'For';
 $string['coursegrade'] = 'Course Grade';
 $string['coursename'] = 'Course';
 $string['coursetimereq'] = 'Required minutes in course';
-$string['coursetimereq_help'] = 'Enter here the minimum amount of time, in minutes, that a student must be logged into the course before they will be able to receive the certificate.';
+$string['coursetimereq_help'] = 'Enter here the minimum amount of time, in minutes, that a student must be logged into the course before they will be able to receive the originalcert.';
 $string['credithours'] = 'Credit Hours';
 $string['customtext'] = 'Custom Text';
 $string['customtext_help'] = 'If you want the certificate to print different names for the teacher than those who are assigned
-the role of teacher, do not select Print Teacher or any signature image except for the line image.  Enter the teacher names in this text box as you would like them to appear.  By default, this text is placed in the lower left of the certificate. The following html tags are available: &lt;br&gt;, &lt;p&gt;, &lt;b&gt;, &lt;i&gt;, &lt;u&gt;, &lt;img&gt; (src and width (or height) are mandatory), &lt;a&gt; (href is mandatory), &lt;font&gt; (possible attributes are: color, (hex color code), face, (arial, times, courier, helvetica, symbol)).';
+the role of teacher, do not select Print Teacher or any signature image except for the line image.  Enter the teacher names in this text box as you would like them to appear.  By default, this text is placed in the lower left of the originalcert. The following html tags are available: &lt;br&gt;, &lt;p&gt;, &lt;b&gt;, &lt;i&gt;, &lt;u&gt;, &lt;img&gt; (src and width (or height) are mandatory), &lt;a&gt; (href is mandatory), &lt;font&gt; (possible attributes are: color, (hex color code), face, (arial, times, courier, helvetica, symbol)).';
 $string['date'] = 'On';
 $string['datefmt'] = 'Date Format';
-$string['datefmt_help'] = 'Choose a date format to print the date on the certificate. Or, choose the last option to have the date printed in the format of the user\'s chosen language.';
+$string['datefmt_help'] = 'Choose a date format to print the date on the certificates. Or, choose the last option to have the date printed in the format of the user\'s chosen language.';
 $string['datehelp'] = 'Date';
-$string['deletissuedcertificates'] = 'Delete issued certificates';
+$string['deletissuedoriginalcerts'] = 'Delete issued certificates';
 $string['delivery'] = 'Delivery';
 $string['delivery_help'] = 'Choose here how you would like your students to get their certificate.
-Open in Browser: Opens the certificate in a new browser window.
+Open in Browser: Opens the originalcert in a new browser window.
 Force Download: Opens the browser file download window.
-Email Certificate: Choosing this option sends the certificate to the student as an email attachment.
-After a user receives their certificate, if they click on the certificate link from the course homepage, they will see the date they received their certificate and will be able to review their received certificate.';
+Email originalcert: Choosing this option sends the certificate to the student as an email attachment.
+After a user receives their originalcert, if they click on the originalcert link from the course homepage, they will see the date they received their certificate and will be able to review their received certificate.';
 $string['designoptions'] = 'Design Options';
 $string['download'] = 'Force download';
-$string['emailcertificate'] = 'Email';
+$string['emailoriginalcert'] = 'Email';
 $string['emailothers'] = 'Email Others';
 $string['emailothers_help'] = 'Enter the email addresses here, separated by a comma, of those who should be alerted with an email whenever students receive a certificate.';
 $string['emailstudenttext'] = 'Attached is your certificate for {$a->course}.';
 $string['emailteachers'] = 'Email Teachers';
 $string['emailteachers_help'] = 'If enabled, then teachers are alerted with an email whenever students receive a certificate.';
 $string['emailteachermail'] = '
-{$a->student} has received their certificate: \'{$a->certificate}\'
+{$a->student} has received their certificate: \'{$a->originalcert}\'
 for {$a->course}.
 
 You can review it here:
 
     {$a->url}';
 $string['emailteachermailhtml'] = '
-{$a->student} has received their certificate: \'<i>{$a->certificate}</i>\'
+{$a->student} has received their originalcert: \'<i>{$a->originalcert}</i>\'
 for {$a->course}.
 
 You can review it here:
@@ -108,7 +108,7 @@ $string['fontsans'] = 'Sans-serif font family';
 $string['fontsans_desc'] = 'Sans-serif font family for certificates with embedded fonts';
 $string['fontserif'] = 'Serif font family';
 $string['fontserif_desc'] = 'Serif font family for certificates with embedded fonts';
-$string['getcertificate'] = 'Get your certificate';
+$string['getoriginalcert'] = 'Get your certificate';
 $string['grade'] = 'Grade';
 $string['gradedate'] = 'Grade Date';
 $string['gradefmt'] = 'Grade Format';
@@ -130,14 +130,14 @@ $string['landscape'] = 'Landscape';
 $string['lastviewed'] = 'You last received this certificate on:';
 $string['letter'] = 'Letter';
 $string['lockingoptions'] = 'Locking Options';
-$string['modulename'] = 'Certificate';
+$string['modulename'] = 'originalcert';
 $string['modulename_help'] = 'This module allows for the dynamic generation of certificates based on predefined conditions set by the teacher.';
-$string['modulename_link'] = 'Certificate_module';
-$string['modulenameplural'] = 'Certificates';
-$string['mycertificates'] = 'My Certificates';
-$string['nocertificates'] = 'There are no certificates';
-$string['nocertificatesissued'] = 'There are no certificates that have been issued';
-$string['nocertificatesreceived'] = 'has not received any course certificates.';
+$string['modulename_link'] = 'originalcert_module';
+$string['modulenameplural'] = 'originalcerts';
+$string['myoriginalcerts'] = 'My certificate';
+$string['nooriginalcerts'] = 'There are no certificate';
+$string['nooriginalcertsissued'] = 'There are no originalcerts that have been issued';
+$string['nooriginalcertsreceived'] = 'has not received any course originalcerts.';
 $string['nofileselected'] = 'Must choose a file to upload!';
 $string['nogrades'] = 'No grades available';
 $string['notapplicable'] = 'N/A';
@@ -152,8 +152,8 @@ $string['openwindow'] = 'Click the button below to open your certificate in a ne
 $string['or'] = 'Or';
 $string['orientation'] = 'Orientation';
 $string['orientation_help'] = 'Choose whether you want your certificate orientation to be portrait or landscape.';
-$string['pluginadministration'] = 'Certificate administration';
-$string['pluginname'] = 'Certificate';
+$string['pluginadministration'] = 'certificate administration';
+$string['pluginname'] = 'originalcert';
 $string['portrait'] = 'Portrait';
 $string['printdate'] = 'Print Date';
 $string['printdate_help'] = 'This is the date that will be printed, if a print date is selected. If the course completion date is selected but the student has not completed the course, the date received will be printed. You can also choose to print the date based on when an activity was graded. If a certificate is issued before that activity is graded, the date received will be printed.';
@@ -161,37 +161,37 @@ $string['printerfriendly'] = 'Printer-friendly page';
 $string['printhours'] = 'Print Credit Hours';
 $string['printhours_help'] = 'Enter here the number of credit hours to be printed on the certificate.';
 $string['printgrade'] = 'Print Grade';
-$string['printgrade_help'] = 'You can choose any available course grade items from the gradebook to print the user\'s grade received for that item on the certificate.  The grade items are listed in the order in which they appear in the gradebook. Choose the format of the grade below.';
+$string['printgrade_help'] = 'You can choose any available course grade items from the gradebook to print the user\'s grade received for that item on the originalcert.  The grade items are listed in the order in which they appear in the gradebook. Choose the format of the grade below.';
 $string['printnumber'] = 'Print Code';
-$string['printnumber_help'] = 'A unique 10-digit code of random letters and numbers can be printed on the certificate. This number can then be verified by comparing it to the code number displayed in the certificates report.';
+$string['printnumber_help'] = 'A unique 10-digit code of random letters and numbers can be printed on the originalcert. This number can then be verified by comparing it to the code number displayed in the certificate report.';
 $string['printoutcome'] = 'Print Outcome';
 $string['printoutcome_help'] = 'You can choose any course outcome to print the name of the outcome and the user\'s received outcome on the certificate.  An example might be: Assignment Outcome: Proficient.';
 $string['printseal'] = 'Seal or Logo Image';
-$string['printseal_help'] = 'This option allows you to select a seal or logo to print on the certificate from the certificate/pix/seals folder. By default, this image is placed in the lower right corner of the certificate.';
+$string['printseal_help'] = 'This option allows you to select a seal or logo to print on the certificate from the originalcert/pix/seals folder. By default, this image is placed in the lower right corner of the certificate.';
 $string['printsignature'] = 'Signature Image';
-$string['printsignature_help'] = 'This option allows you to print a signature image from the certificate/pix/signatures folder.  You can print a graphic representation of a signature, or print a line for a written signature. By default, this image is placed in the lower left of the certificate.';
+$string['printsignature_help'] = 'This option allows you to print a signature image from the originalcert/pix/signatures folder.  You can print a graphic representation of a signature, or print a line for a written signature. By default, this image is placed in the lower left of the certificate.';
 $string['printteacher'] = 'Print Teacher Name(s)';
-$string['printteacher_help'] = 'For printing the teacher name on the certificate, set the role of teacher at the module level.  Do this if, for example, you have more than one teacher for the course or you have more than one certificate in the course and you want to print different teacher names on each certificate.  Click to edit the certificate, then click on the Locally assigned roles tab.  Then assign the role of Teacher (editing teacher) to the certificate (they do not HAVE to be a teacher in the course--you can assign that role to anyone).  Those names will be printed on the certificate for teacher.';
+$string['printteacher_help'] = 'For printing the teacher name on the originalcert, set the role of teacher at the module level.  Do this if, for example, you have more than one teacher for the course or you have more than one certificate in the course and you want to print different teacher names on each certificate.  Click to edit the originalcert, then click on the Locally assigned roles tab.  Then assign the role of Teacher (editing teacher) to the originalcert (they do not HAVE to be a teacher in the course--you can assign that role to anyone).  Those names will be printed on the originalcert for teacher.';
 $string['printwmark'] = 'Watermark Image';
-$string['printwmark_help'] = 'A watermark file can be placed in the background of the certificate. A watermark is a faded graphic. A watermark could be a logo, seal, crest, wording, or whatever you want to use as a graphic background.';
-$string['receivedcerts'] = 'Received certificates';
+$string['printwmark_help'] = 'A watermark file can be placed in the background of the originalcert. A watermark is a faded graphic. A watermark could be a logo, seal, crest, wording, or whatever you want to use as a graphic background.';
+$string['receivedcerts'] = 'Received originalcerts';
 $string['receiveddate'] = 'Date Received';
-$string['removecert'] = 'Issued certificates removed';
+$string['removecert'] = 'Issued originalcerts removed';
 $string['report'] = 'Report';
-$string['reportcert'] = 'Report Certificates';
+$string['reportcert'] = 'Report originalcerts';
 $string['reportcert_help'] = 'If you choose yes here, then this certificate\'s date received, code number, and the course name will be shown on the user certificate reports.  If you choose to print a grade on this certificate, then that grade will also be shown on the certificate report.';
-$string['requiredtimenotmet'] = 'You must spend at least a minimum of {$a->requiredtime} minutes in the course before you can access this certificate';
+$string['requiredtimenotmet'] = 'You must spend at least a minimum of {$a->requiredtime} minutes in the course before you can access this originalcert';
 $string['requiredtimenotvalid'] = 'The required time must be a valid number greater than 0';
-$string['reviewcertificate'] = 'Review your certificate';
-$string['savecert'] = 'Save Certificates';
+$string['revieworiginalcert'] = 'Review your certificate';
+$string['savecert'] = 'Save originalcerts';
 $string['savecert_help'] = 'If you choose this option, then a copy of each user\'s certificate pdf file is saved in the course files moddata folder for that certificate. A link to each user\'s saved certificate will be displayed in the certificate report.';
 $string['seal'] = 'Seal';
 $string['sigline'] = 'line';
 $string['signature'] = 'Signature';
 $string['statement'] = 'has completed the course';
-$string['summaryofattempts'] = 'Summary of previously received certificates';
+$string['summaryofattempts'] = 'Summary of previously received originalcerts';
 $string['textoptions'] = 'Text Options';
-$string['title'] = 'CERTIFICATE of ACHIEVEMENT';
+$string['title'] = 'originalcert of ACHIEVEMENT';
 $string['to'] = 'Awarded to';
 $string['typeA4_embedded'] = 'A4 Embedded';
 $string['typeA4_non_embedded'] = 'A4 Non-Embedded';
@@ -202,8 +202,8 @@ $string['uploadimage'] = 'Upload image';
 $string['uploadimagedesc'] = 'This button will take you to a new screen where you will be able to upload images.';
 $string['userdateformat'] = 'User\'s Language Date Format';
 $string['validate'] = 'Verify';
-$string['verifycertificate'] = 'Verify Certificate';
-$string['viewcertificateviews'] = 'View {$a} issued certificates';
-$string['viewed'] = 'You received this certificate on:';
-$string['viewtranscript'] = 'View Certificates';
+$string['verifyoriginalcert'] = 'Verify originalcert';
+$string['vieworiginalcertviews'] = 'View {$a} issued originalcerts';
+$string['viewed'] = 'You received this originalcert on:';
+$string['viewtranscript'] = 'View originalcerts';
 $string['watermark'] = 'Watermark';

@@ -1,6 +1,6 @@
 <?php
 
-// This file is part of the Certificate module for Moodle - http://moodle.org/
+// This file is part of the originalcert module for Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,9 +16,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This page lists all the instances of certificate in a particular course
+ * This page lists all the instances of originalcert in a particular course
  *
- * @package    mod_certificate
+ * @package    mod_originalcert
  * @copyright  Mark Nelson <markn@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -42,29 +42,29 @@ $printsection = "";
 $timenow = time();
 
 // Strings used multiple times
-$strcertificates = get_string('modulenameplural', 'certificate');
-$strissued  = get_string('issued', 'certificate');
+$stroriginalcerts = get_string('modulenameplural', 'originalcert');
+$strissued  = get_string('issued', 'originalcert');
 $strname  = get_string("name");
 $strsectionname = get_string('sectionname', 'format_'.$course->format);
 
 // Print the header
 $PAGE->set_pagelayout('incourse');
-$PAGE->set_url('/mod/certificate/index.php', array('id'=>$course->id));
-$PAGE->navbar->add($strcertificates);
-$PAGE->set_title($strcertificates);
+$PAGE->set_url('/mod/originalcert/index.php', array('id'=>$course->id));
+$PAGE->navbar->add($stroriginalcerts);
+$PAGE->set_title($stroriginalcerts);
 $PAGE->set_heading($course->fullname);
 
 // Add the page view to the Moodle log
-$event = \mod_certificate\event\course_module_instance_list_viewed::create(array(
+$event = \mod_originalcert\event\course_module_instance_list_viewed::create(array(
     'context' => context_course::instance($course->id)
 ));
 $event->add_record_snapshot('course', $course);
 $event->trigger();
 
-// Get the certificates, if there are none display a notice
-if (!$certificates = get_all_instances_in_course('certificate', $course)) {
+// Get the originalcerts, if there are none display a notice
+if (!$originalcerts = get_all_instances_in_course('originalcert', $course)) {
     echo $OUTPUT->header();
-    notice(get_string('nocertificates', 'certificate'), "$CFG->wwwroot/course/view.php?id=$course->id");
+    notice(get_string('nooriginalcerts', 'originalcert'), "$CFG->wwwroot/course/view.php?id=$course->id");
     echo $OUTPUT->footer();
     exit();
 }
@@ -79,33 +79,33 @@ if ($usesections) {
     $table->head  = array ($strname, $strissued);
 }
 
-foreach ($certificates as $certificate) {
-    if (!$certificate->visible) {
+foreach ($originalcerts as $originalcert) {
+    if (!$originalcert->visible) {
         // Show dimmed if the mod is hidden
-        $link = html_writer::tag('a', $certificate->name, array('class' => 'dimmed',
-            'href' => $CFG->wwwroot . '/mod/certificate/view.php?id=' . $certificate->coursemodule));
+        $link = html_writer::tag('a', $originalcert->name, array('class' => 'dimmed',
+            'href' => $CFG->wwwroot . '/mod/originalcert/view.php?id=' . $originalcert->coursemodule));
     } else {
         // Show normal if the mod is visible
-        $link = html_writer::tag('a', $certificate->name, array('class' => 'dimmed',
-            'href' => $CFG->wwwroot . '/mod/certificate/view.php?id=' . $certificate->coursemodule));
+        $link = html_writer::tag('a', $originalcert->name, array('class' => 'dimmed',
+            'href' => $CFG->wwwroot . '/mod/originalcert/view.php?id=' . $originalcert->coursemodule));
     }
 
     $strsection = '';
-    if ($certificate->section != $currentsection) {
-        if ($certificate->section) {
-            $strsection = get_section_name($course, $certificate->section);
+    if ($originalcert->section != $currentsection) {
+        if ($originalcert->section) {
+            $strsection = get_section_name($course, $originalcert->section);
         }
         if ($currentsection !== '') {
             $table->data[] = 'hr';
         }
-        $currentsection = $certificate->section;
+        $currentsection = $originalcert->section;
     }
 
-    // Get the latest certificate issue
-    if ($certrecord = $DB->get_record('certificate_issues', array('userid' => $USER->id, 'certificateid' => $certificate->id))) {
+    // Get the latest originalcert issue
+    if ($certrecord = $DB->get_record('originalcert_issues', array('userid' => $USER->id, 'originalcertid' => $originalcert->id))) {
         $issued = userdate($certrecord->timecreated);
     } else {
-        $issued = get_string('notreceived', 'certificate');
+        $issued = get_string('notreceived', 'originalcert');
     }
 
     if ($usesections) {

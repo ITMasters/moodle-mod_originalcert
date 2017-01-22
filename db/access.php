@@ -1,6 +1,6 @@
 <?php
 
-// This file is part of the Certificate module for Moodle - http://moodle.org/
+// This file is part of the originalcert module for Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,16 +16,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Certificate module capability definition
+ * originalcert module capability definition
  *
- * @package    mod_certificate
+ * @package    mod_originalcert
  * @copyright  Mark Nelson <markn@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 $capabilities = array(
 
-    'mod/certificate:addinstance' => array(
+    'mod/originalcert:addinstance' => array(
         'riskbitmask' => RISK_XSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
@@ -36,7 +36,7 @@ $capabilities = array(
         'clonepermissionsfrom' => 'moodle/course:manageactivities'
     ),
 
-    'mod/certificate:view' => array(
+    'mod/originalcert:view' => array(
 
         'captype' => 'read',
         'contextlevel' => CONTEXT_MODULE,
@@ -48,7 +48,7 @@ $capabilities = array(
         )
     ),
 
-    'mod/certificate:manage' => array(
+    'mod/originalcert:manage' => array(
 
         'captype' => 'read',
         'contextlevel' => CONTEXT_MODULE,
@@ -59,7 +59,7 @@ $capabilities = array(
         )
     ),
 
-    'mod/certificate:printteacher' => array(
+    'mod/originalcert:printteacher' => array(
 
         'captype' => 'read',
         'contextlevel' => CONTEXT_MODULE,

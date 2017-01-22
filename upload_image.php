@@ -1,6 +1,6 @@
 <?php
 
-// This file is part of the Certificate module for Moodle - http://moodle.org/
+// This file is part of the originalcert module for Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,45 +18,45 @@
 /**
  * Handles uploading files
  *
- * @package    mod_certificate
+ * @package    mod_originalcert
  * @copyright  Mark Nelson <markn@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require('../../config.php');
-require_once($CFG->dirroot.'/mod/certificate/locallib.php');
-require_once($CFG->dirroot.'/mod/certificate/upload_image_form.php');
+require_once($CFG->dirroot.'/mod/originalcert/locallib.php');
+require_once($CFG->dirroot.'/mod/originalcert/upload_image_form.php');
 
 require_login();
 
 $context = context_system::instance();
 require_capability('moodle/site:config', $context);
 
-$struploadimage = get_string('uploadimage', 'certificate');
+$struploadimage = get_string('uploadimage', 'originalcert');
 
-$PAGE->set_url('/admin/settings.php', array('section' => 'modsettingcertificate'));
-$PAGE->set_pagetype('admin-setting-modsettingcertificate');
+$PAGE->set_url('/admin/settings.php', array('section' => 'modsettingoriginalcert'));
+$PAGE->set_pagetype('admin-setting-modsettingoriginalcert');
 $PAGE->set_pagelayout('admin');
 $PAGE->set_context($context);
 $PAGE->set_title($struploadimage);
 $PAGE->set_heading($SITE->fullname);
 $PAGE->navbar->add($struploadimage);
 
-$upload_form = new mod_certificate_upload_image_form();
+$upload_form = new mod_originalcert_upload_image_form();
 
 if ($upload_form->is_cancelled()) {
-    redirect(new moodle_url('/admin/settings.php?section=modsettingcertificate'));
+    redirect(new moodle_url('/admin/settings.php?section=modsettingoriginalcert'));
 } else if ($data = $upload_form->get_data()) {
     // Ensure the directory for storing is created
-    $uploaddir = "mod/certificate/pix/$data->imagetype";
-    $filename = $upload_form->get_new_filename('certificateimage');
+    $uploaddir = "mod/originalcert/pix/$data->imagetype";
+    $filename = $upload_form->get_new_filename('originalcertimage');
     make_upload_directory($uploaddir);
     $destination = $CFG->dataroot . '/' . $uploaddir . '/' . $filename;
-    if (!$upload_form->save_file('certificateimage', $destination, true)) {
+    if (!$upload_form->save_file('originalcertimage', $destination, true)) {
         throw new coding_exception('File upload failed');
     }
 
-    redirect(new moodle_url('/admin/settings.php?section=modsettingcertificate'), get_string('changessaved'));
+    redirect(new moodle_url('/admin/settings.php?section=modsettingoriginalcert'), get_string('changessaved'));
 }
 
 echo $OUTPUT->header();

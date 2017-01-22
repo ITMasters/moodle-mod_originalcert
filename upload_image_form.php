@@ -1,6 +1,6 @@
 <?php
 
-// This file is part of the Certificate module for Moodle - http://moodle.org/
+// This file is part of the originalcert module for Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 /**
  * Handles uploading files
  *
- * @package    mod_certificate
+ * @package    mod_originalcert
  * @copyright  Mark Nelson <markn@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -28,9 +28,9 @@ if (!defined('MOODLE_INTERNAL')) {
 }
 
 require_once($CFG->libdir.'/formslib.php');
-require_once($CFG->dirroot.'/mod/certificate/locallib.php');
+require_once($CFG->dirroot.'/mod/originalcert/locallib.php');
 
-class mod_certificate_upload_image_form extends moodleform {
+class mod_originalcert_upload_image_form extends moodleform {
 
     function definition() {
         global $CFG;
@@ -38,16 +38,16 @@ class mod_certificate_upload_image_form extends moodleform {
         $mform =& $this->_form;
 
         $imagetypes = array(
-            CERT_IMAGE_BORDER => get_string('border', 'certificate'),
-            CERT_IMAGE_WATERMARK => get_string('watermark', 'certificate'),
-            CERT_IMAGE_SIGNATURE => get_string('signature', 'certificate'),
-            CERT_IMAGE_SEAL => get_string('seal', 'certificate')
+            CERT_IMAGE_BORDER => get_string('border', 'originalcert'),
+            CERT_IMAGE_WATERMARK => get_string('watermark', 'originalcert'),
+            CERT_IMAGE_SIGNATURE => get_string('signature', 'originalcert'),
+            CERT_IMAGE_SEAL => get_string('seal', 'originalcert')
         );
 
-        $mform->addElement('select', 'imagetype', get_string('imagetype', 'certificate'), $imagetypes);
+        $mform->addElement('select', 'imagetype', get_string('imagetype', 'originalcert'), $imagetypes);
 
-        $mform->addElement('filepicker', 'certificateimage', '');
-        $mform->addRule('certificateimage', null, 'required', null, 'client');
+        $mform->addElement('filepicker', 'originalcertimage', '');
+        $mform->addRule('originalcertimage', null, 'required', null, 'client');
 
         $this->add_action_buttons();
     }
@@ -67,15 +67,15 @@ class mod_certificate_upload_image_form extends moodleform {
                                 'png' => 'image/png',
                                 'pngIE' => 'image/x-png');
 
-        $files = $this->get_draft_files('certificateimage');
+        $files = $this->get_draft_files('originalcertimage');
         if ($files) {
             foreach ($files as $file) {
                 if (!in_array($file->get_mimetype(), $supportedtypes)) {
-                    $errors['certificateimage'] = get_string('unsupportedfiletype', 'certificate');
+                    $errors['originalcertimage'] = get_string('unsupportedfiletype', 'originalcert');
                 }
             }
         } else {
-            $errors['certificateimage'] = get_string('nofileselected', 'certificate');
+            $errors['originalcertimage'] = get_string('nofileselected', 'originalcert');
         }
 
         return $errors;

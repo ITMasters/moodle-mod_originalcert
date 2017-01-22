@@ -1,6 +1,6 @@
 <?php
 
-// This file is part of the Certificate module for Moodle - http://moodle.org/
+// This file is part of the originalcert module for Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,20 +16,20 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_certificate
+ * @package    mod_originalcert
  * @subpackage backup-moodle2
  * @copyright 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once($CFG->dirroot . '/mod/certificate/backup/moodle2/backup_certificate_stepslib.php'); // Because it exists (must)
-require_once($CFG->dirroot . '/mod/certificate/backup/moodle2/backup_certificate_settingslib.php'); // Because it exists (optional)
+require_once($CFG->dirroot . '/mod/originalcert/backup/moodle2/backup_originalcert_stepslib.php'); // Because it exists (must)
+require_once($CFG->dirroot . '/mod/originalcert/backup/moodle2/backup_originalcert_settingslib.php'); // Because it exists (optional)
 
 /**
- * certificate backup task that provides all the settings and steps to perform one
+ * originalcert backup task that provides all the settings and steps to perform one
  * complete backup of the activity
  */
-class backup_certificate_activity_task extends backup_activity_task {
+class backup_originalcert_activity_task extends backup_activity_task {
 
     /**
      * Define (add) particular settings this activity can have
@@ -42,8 +42,8 @@ class backup_certificate_activity_task extends backup_activity_task {
      * Define (add) particular steps this activity can have
      */
     protected function define_my_steps() {
-        // Certificate only has one structure step
-        $this->add_step(new backup_certificate_activity_structure_step('certificate_structure', 'certificate.xml'));
+        // originalcert only has one structure step
+        $this->add_step(new backup_originalcert_activity_structure_step('originalcert_structure', 'originalcert.xml'));
     }
 
     /**
@@ -55,13 +55,13 @@ class backup_certificate_activity_task extends backup_activity_task {
 
         $base = preg_quote($CFG->wwwroot,"/");
 
-        // Link to the list of certificates
-        $search="/(".$base."\/mod\/certificate\/index.php\?id\=)([0-9]+)/";
-        $content= preg_replace($search, '$@CERTIFICATEINDEX*$2@$', $content);
+        // Link to the list of originalcerts
+        $search="/(".$base."\/mod\/originalcert\/index.php\?id\=)([0-9]+)/";
+        $content= preg_replace($search, '$@originalcertINDEX*$2@$', $content);
 
-        // Link to certificate view by moduleid
-        $search="/(".$base."\/mod\/certificate\/view.php\?id\=)([0-9]+)/";
-        $content= preg_replace($search, '$@CERTIFICATEVIEWBYID*$2@$', $content);
+        // Link to originalcert view by moduleid
+        $search="/(".$base."\/mod\/originalcert\/view.php\?id\=)([0-9]+)/";
+        $content= preg_replace($search, '$@originalcertVIEWBYID*$2@$', $content);
 
         return $content;
     }

@@ -1,6 +1,6 @@
 <?php
 
-// This file is part of the Certificate module for Moodle - http://moodle.org/
+// This file is part of the originalcert module for Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,21 +16,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This page lists all the instances of certificate in a particular course
+ * This page lists all the instances of originalcert in a particular course
  *
  * @package    mod
- * @subpackage certificate
+ * @subpackage originalcert
  * @copyright  Mark Nelson <markn@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_certificate\event;
+namespace mod_originalcert\event;
 
 defined('MOODLE_INTERNAL') || die();
 
 class course_module_viewed extends \core\event\course_module_viewed {
     protected function init() {
-        $this->data['objecttable'] = 'certificate';
+        $this->data['objecttable'] = 'originalcert';
         parent::init();
     }
 }

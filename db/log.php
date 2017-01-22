@@ -1,6 +1,6 @@
 <?php
 
-// This file is part of the Certificate module for Moodle - http://moodle.org/
+// This file is part of the originalcert module for Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 /**
  * Definition of log events
  *
- * @package    mod_certificate
+ * @package    mod_originalcert
  * @copyright  2010 Petr Skoda (http://skodak.org)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,8 +26,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $logs = array(
-    array('module'=>'certificate', 'action'=>'view', 'mtable'=>'certificate', 'field'=>'name'),
-    array('module'=>'certificate', 'action'=>'add', 'mtable'=>'certificate', 'field'=>'name'),
-     array('module'=>'certificate', 'action'=>'update', 'mtable'=>'certificate', 'field'=>'name'),
-    array('module'=>'certificate', 'action'=>'received', 'mtable'=>'certificate', 'field'=>'name'),
+    array('module'=>'originalcert', 'action'=>'view', 'mtable'=>'originalcert', 'field'=>'name'),
+    array('module'=>'originalcert', 'action'=>'add', 'mtable'=>'originalcert', 'field'=>'name'),
+     array('module'=>'originalcert', 'action'=>'update', 'mtable'=>'originalcert', 'field'=>'name'),
+    array('module'=>'originalcert', 'action'=>'received', 'mtable'=>'originalcert', 'field'=>'name'),
 );

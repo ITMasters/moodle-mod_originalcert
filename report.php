@@ -1,6 +1,6 @@
 <?php
 
-// This file is part of the Certificate module for Moodle - http://moodle.org/
+// This file is part of the originalcert module for Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 /**
  * Handles viewing the report
  *
- * @package    mod_certificate
+ * @package    mod_originalcert
  * @copyright  Mark Nelson <markn@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -35,7 +35,7 @@ $page = optional_param('page', 0, PARAM_INT);
 $perpage = optional_param('perpage', CERT_PER_PAGE, PARAM_INT);
 
 // Ensure the perpage variable does not exceed the max allowed if
-// the user has not specified they wish to view all certificates.
+// the user has not specified they wish to view all originalcerts.
 if (CERT_PER_PAGE !== 0) {
     if (($perpage > CERT_MAX_PER_PAGE) || ($perpage <= 0)) {
         $perpage = CERT_MAX_PER_PAGE;
@@ -44,7 +44,7 @@ if (CERT_PER_PAGE !== 0) {
     $perpage = '9999999';
 }
 
-$url = new moodle_url('/mod/certificate/report.php', array('id'=>$id, 'page' => $page, 'perpage' => $perpage));
+$url = new moodle_url('/mod/originalcert/report.php', array('id'=>$id, 'page' => $page, 'perpage' => $perpage));
 if ($download) {
     $url->param('download', $download);
 }
@@ -53,7 +53,7 @@ if ($action) {
 }
 $PAGE->set_url($url);
 
-if (!$cm = get_coursemodule_from_id('certificate', $id)) {
+if (!$cm = get_coursemodule_from_id('originalcert', $id)) {
     print_error('Course Module ID was incorrect');
 }
 
@@ -61,8 +61,8 @@ if (!$course = $DB->get_record('course', array('id'=> $cm->course))) {
     print_error('Course is misconfigured');
 }
 
-if (!$certificate = $DB->get_record('certificate', array('id'=> $cm->instance))) {
-    print_error('Certificate ID was incorrect');
+if (!$originalcert = $DB->get_record('originalcert', array('id'=> $cm->instance))) {
+    print_error('originalcert ID was incorrect');
 }
 
 // Requires a course login
@@ -70,20 +70,20 @@ require_login($course, false, $cm);
 
 // Check capabilities
 $context = context_module::instance($cm->id);
-require_capability('mod/certificate:manage', $context);
+require_capability('mod/originalcert:manage', $context);
 
 // Declare some variables
-$strcertificates = get_string('modulenameplural', 'certificate');
-$strcertificate  = get_string('modulename', 'certificate');
-$strto = get_string('awardedto', 'certificate');
-$strdate = get_string('receiveddate', 'certificate');
-$strgrade = get_string('grade','certificate');
-$strcode = get_string('code', 'certificate');
-$strreport= get_string('report', 'certificate');
+$stroriginalcerts = get_string('modulenameplural', 'originalcert');
+$stroriginalcert  = get_string('modulename', 'originalcert');
+$strto = get_string('awardedto', 'originalcert');
+$strdate = get_string('receiveddate', 'originalcert');
+$strgrade = get_string('grade','originalcert');
+$strcode = get_string('code', 'originalcert');
+$strreport= get_string('report', 'originalcert');
 
 if (!$download) {
     $PAGE->navbar->add($strreport);
-    $PAGE->set_title(format_string($certificate->name).": $strreport");
+    $PAGE->set_title(format_string($originalcert->name).": $strreport");
     $PAGE->set_heading($course->fullname);
     // Check to see if groups are being used in this choice
     if ($groupmode = groups_get_activity_groupmode($cm)) {
@@ -96,10 +96,10 @@ if (!$download) {
 }
 
 // Ensure there are issues to display, if not display notice
-if (!$users = certificate_get_issues($certificate->id, $DB->sql_fullname(), $groupmode, $cm, $page, $perpage)) {
+if (!$users = originalcert_get_issues($originalcert->id, $DB->sql_fullname(), $groupmode, $cm, $page, $perpage)) {
     echo $OUTPUT->header();
-    groups_print_activity_menu($cm, $CFG->wwwroot . '/mod/certificate/report.php?id='.$id);
-    echo $OUTPUT->notification(get_string('nocertificatesissued', 'certificate'));
+    groups_print_activity_menu($cm, $CFG->wwwroot . '/mod/originalcert/report.php?id='.$id);
+    echo $OUTPUT->notification(get_string('nooriginalcertsissued', 'originalcert'));
     echo $OUTPUT->footer($course);
     exit();
 }
@@ -111,7 +111,7 @@ if ($download == "ods") {
     require_once("$CFG->libdir/odslib.class.php");
 
     // Calculate file name
-    $filename = certificate_get_certificate_filename($certificate, $cm, $course) . '.ods';
+    $filename = originalcert_get_originalcert_filename($originalcert, $cm, $course) . '.ods';
     // Creating a workbook
     $workbook = new MoodleODSWorkbook("-");
     // Send HTTP headers
@@ -152,7 +152,7 @@ if ($download == "ods") {
             }
             $myxls->write_string($row, $nextposition, $ug2);
             $myxls->write_string($row, $nextposition + 1, userdate($user->timecreated));
-            $myxls->write_string($row, $nextposition + 2, certificate_get_grade($certificate, $course, $user->id));
+            $myxls->write_string($row, $nextposition + 2, originalcert_get_grade($originalcert, $course, $user->id));
             $myxls->write_string($row, $nextposition + 3, $user->code);
             $row++;
         }
@@ -167,7 +167,7 @@ if ($download == "xls") {
     require_once("$CFG->libdir/excellib.class.php");
 
     // Calculate file name
-    $filename = certificate_get_certificate_filename($certificate, $cm, $course) . '.xls';
+    $filename = originalcert_get_originalcert_filename($originalcert, $cm, $course) . '.xls';
     // Creating a workbook
     $workbook = new MoodleExcelWorkbook("-");
     // Send HTTP headers
@@ -208,7 +208,7 @@ if ($download == "xls") {
             }
             $myxls->write_string($row, $nextposition, $ug2);
             $myxls->write_string($row, $nextposition + 1, userdate($user->timecreated));
-            $myxls->write_string($row, $nextposition + 2, certificate_get_grade($certificate, $course, $user->id));
+            $myxls->write_string($row, $nextposition + 2, originalcert_get_grade($originalcert, $course, $user->id));
             $myxls->write_string($row, $nextposition + 3, $user->code);
             $row++;
         }
@@ -220,7 +220,7 @@ if ($download == "xls") {
 }
 
 if ($download == "txt") {
-    $filename = certificate_get_certificate_filename($certificate, $cm, $course) . '.txt';
+    $filename = originalcert_get_originalcert_filename($originalcert, $cm, $course) . '.txt';
 
     header("Content-Type: application/download\n");
     header("Content-Disposition: attachment; filename=\"$filename\"");
@@ -255,14 +255,14 @@ if ($download == "txt") {
         }
         echo $ug2 . "\t";
         echo userdate($user->timecreated) . "\t";
-        echo certificate_get_grade($certificate, $course, $user->id) . "\t";
+        echo originalcert_get_grade($originalcert, $course, $user->id) . "\t";
         echo $user->code . "\n";
         $row++;
     }
     exit;
 }
 
-$usercount = count(certificate_get_issues($certificate->id, $DB->sql_fullname(), $groupmode, $cm));
+$usercount = count(originalcert_get_issues($originalcert->id, $DB->sql_fullname(), $groupmode, $cm));
 
 // Create the table for the users
 $table = new html_table();
@@ -278,14 +278,14 @@ $table->head = array_merge($table->head, array($strdate, $strgrade, $strcode));
 $table->align = array_merge($table->align, array('left', 'center', 'center'));
 foreach ($users as $user) {
     $name = $OUTPUT->user_picture($user) . fullname($user);
-    $date = userdate($user->timecreated) . certificate_print_user_files($certificate, $user->id, $context->id);
+    $date = userdate($user->timecreated) . originalcert_print_user_files($originalcert, $user->id, $context->id);
     $code = $user->code;
     $data = array();
     $data[] = $name;
     foreach ($extrafields as $field) {
         $data[] = $user->$field;
     }
-    $data = array_merge($data, array($date, certificate_get_grade($certificate, $course, $user->id), $code));
+    $data = array_merge($data, array($date, originalcert_get_grade($originalcert, $course, $user->id), $code));
     $table->data[] = $data;
 }
 
@@ -298,8 +298,8 @@ $btndownloadtxt = $OUTPUT->single_button(new moodle_url("report.php", array('id'
 $tablebutton->data[] = array($btndownloadods, $btndownloadxls, $btndownloadtxt);
 
 echo $OUTPUT->header();
-groups_print_activity_menu($cm, $CFG->wwwroot . '/mod/certificate/report.php?id='.$id);
-echo $OUTPUT->heading(get_string('modulenameplural', 'certificate'));
+groups_print_activity_menu($cm, $CFG->wwwroot . '/mod/originalcert/report.php?id='.$id);
+echo $OUTPUT->heading(get_string('modulenameplural', 'originalcert'));
 echo $OUTPUT->paging_bar($usercount, $page, $perpage, $url);
 echo '<br />';
 echo html_writer::table($table);

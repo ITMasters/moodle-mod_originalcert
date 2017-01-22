@@ -1,6 +1,6 @@
 <?php
 
-// This file is part of the Certificate module for Moodle - http://moodle.org/
+// This file is part of the originalcert module for Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,9 +16,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Code fragment to define the version of the certificate module
+ * Code fragment to define the version of the originalcert module
  *
- * @package    mod_certificate
+ * @package    mod_originalcert
  * @copyright  Mark Nelson <markn@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or late
  */
@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 $plugin->version   = 2016061700; // The current module version (Date: YYYYMMDDXX)
 $plugin->requires  = 2016052300; // Requires this Moodle version (3.1)
 $plugin->cron      = 0; // Period for cron to check this module (secs)
-$plugin->component = 'mod_certificate';
+$plugin->component = 'mod_originalcert';
 
 $plugin->maturity  = MATURITY_STABLE;
 $plugin->release   = "Master (Build: 2016061700)"; // User-friendly version number

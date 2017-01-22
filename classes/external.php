@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Certificate module external API
+ * originalcert module external API
  *
- * @package    mod_certificate
+ * @package    mod_originalcert
  * @category   external
  * @copyright  2016 Juan Leyva <juan@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -26,24 +26,24 @@
 defined('MOODLE_INTERNAL') || die;
 
 require_once($CFG->libdir . '/externallib.php');
-require_once($CFG->dirroot . '/mod/certificate/locallib.php');
+require_once($CFG->dirroot . '/mod/originalcert/locallib.php');
 
 /**
- * Certificate module external functions
+ * originalcert module external functions
  *
- * @package    mod_certificate
+ * @package    mod_originalcert
  * @category   external
  * @copyright  2015 Juan Leyva <juan@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_certificate_external extends external_api {
+class mod_originalcert_external extends external_api {
 
     /**
-     * Describes the parameters for get_certificates_by_courses.
+     * Describes the parameters for get_originalcerts_by_courses.
      *
      * @return external_function_parameters
      */
-    public static function get_certificates_by_courses_parameters() {
+    public static function get_originalcerts_by_courses_parameters() {
         return new external_function_parameters (
             array(
                 'courseids' => new external_multiple_structure(
@@ -54,19 +54,19 @@ class mod_certificate_external extends external_api {
     }
 
     /**
-     * Returns a list of certificates in a provided list of courses,
-     * if no list is provided all certificates that the user can view will be returned.
+     * Returns a list of originalcerts in a provided list of courses,
+     * if no list is provided all originalcerts that the user can view will be returned.
      *
      * @param array $courseids the course ids
-     * @return array the certificate details
+     * @return array the originalcert details
      */
-    public static function get_certificates_by_courses($courseids = array()) {
+    public static function get_originalcerts_by_courses($courseids = array()) {
         global $CFG;
 
-        $returnedcertificates = array();
+        $returnedoriginalcerts = array();
         $warnings = array();
 
-        $params = self::validate_parameters(self::get_certificates_by_courses_parameters(), array('courseids' => $courseids));
+        $params = self::validate_parameters(self::get_originalcerts_by_courses_parameters(), array('courseids' => $courseids));
 
         if (empty($params['courseids'])) {
             $params['courseids'] = array_keys(enrol_get_my_courses());
@@ -77,34 +77,34 @@ class mod_certificate_external extends external_api {
 
             list($courses, $warnings) = external_util::validate_courses($params['courseids']);
 
-            // Get the certificates in this course, this function checks users visibility permissions.
+            // Get the originalcerts in this course, this function checks users visibility permissions.
             // We can avoid then additional validate_context calls.
-            $certificates = get_all_instances_in_courses("certificate", $courses);
+            $originalcerts = get_all_instances_in_courses("originalcert", $courses);
 
-            foreach ($certificates as $certificate) {
+            foreach ($originalcerts as $originalcert) {
 
-                $context = context_module::instance($certificate->coursemodule);
+                $context = context_module::instance($originalcert->coursemodule);
 
                 // Entry to return.
                 $module = array();
 
                 // First, we return information that any user can see in (or can deduce from) the web interface.
-                $module['id'] = $certificate->id;
-                $module['coursemodule'] = $certificate->coursemodule;
-                $module['course'] = $certificate->course;
-                $module['name']  = external_format_string($certificate->name, $context->id);
+                $module['id'] = $originalcert->id;
+                $module['coursemodule'] = $originalcert->coursemodule;
+                $module['course'] = $originalcert->course;
+                $module['name']  = external_format_string($originalcert->name, $context->id);
 
                 $viewablefields = [];
-                if (has_capability('mod/certificate:view', $context)) {
+                if (has_capability('mod/originalcert:view', $context)) {
                     list($module['intro'], $module['introformat']) =
-                        external_format_text($certificate->intro, $certificate->introformat, $context->id,
-                                                'mod_certificate', 'intro', $certificate->id);
+                        external_format_text($originalcert->intro, $originalcert->introformat, $context->id,
+                                                'mod_originalcert', 'intro', $originalcert->id);
 
-                    // Check certificate requeriments for current user.
+                    // Check originalcert requeriments for current user.
                     $viewablefields[] = 'requiredtime';
                     $module['requiredtimenotmet'] = 0;
-                    if ($certificate->requiredtime && !has_capability('mod/certificate:manage', $context)) {
-                        if (certificate_get_course_time($certificate->course) < ($certificate->requiredtime * 60)) {
+                    if ($originalcert->requiredtime && !has_capability('mod/originalcert:manage', $context)) {
+                        if (originalcert_get_course_time($originalcert->course) < ($originalcert->requiredtime * 60)) {
                             $module['requiredtimenotmet'] = 1;
                         }
                     }
@@ -114,7 +114,7 @@ class mod_certificate_external extends external_api {
                 if (has_capability('moodle/course:manageactivities', $context)) {
 
                     $additionalfields = array('emailteachers', 'emailothers', 'savecert',
-                        'reportcert', 'delivery', 'certificatetype', 'orientation', 'borderstyle', 'bordercolor',
+                        'reportcert', 'delivery', 'originalcerttype', 'orientation', 'borderstyle', 'bordercolor',
                         'printwmark', 'printdate', 'datefmt', 'printnumber', 'printgrade', 'gradefmt', 'printoutcome',
                         'printhours', 'printteacher', 'customtext', 'printsignature', 'printseal', 'timecreated', 'timemodified',
                         'section', 'visible', 'groupmode', 'groupingid');
@@ -123,45 +123,45 @@ class mod_certificate_external extends external_api {
                 }
 
                 foreach ($viewablefields as $field) {
-                    $module[$field] = $certificate->{$field};
+                    $module[$field] = $originalcert->{$field};
                 }
 
-                $returnedcertificates[] = $module;
+                $returnedoriginalcerts[] = $module;
             }
         }
 
         $result = array();
-        $result['certificates'] = $returnedcertificates;
+        $result['originalcerts'] = $returnedoriginalcerts;
         $result['warnings'] = $warnings;
         return $result;
     }
 
     /**
-     * Describes the get_certificates_by_courses return value.
+     * Describes the get_originalcerts_by_courses return value.
      *
      * @return external_single_structure
      */
-    public static function get_certificates_by_courses_returns() {
+    public static function get_originalcerts_by_courses_returns() {
 
         return new external_single_structure(
             array(
-                'certificates' => new external_multiple_structure(
+                'originalcerts' => new external_multiple_structure(
                     new external_single_structure(
                         array(
-                            'id' => new external_value(PARAM_INT, 'Certificate id'),
+                            'id' => new external_value(PARAM_INT, 'originalcert id'),
                             'coursemodule' => new external_value(PARAM_INT, 'Course module id'),
                             'course' => new external_value(PARAM_INT, 'Course id'),
-                            'name' => new external_value(PARAM_RAW, 'Certificate name'),
-                            'intro' => new external_value(PARAM_RAW, 'The Certificate intro', VALUE_OPTIONAL),
+                            'name' => new external_value(PARAM_RAW, 'originalcert name'),
+                            'intro' => new external_value(PARAM_RAW, 'The originalcert intro', VALUE_OPTIONAL),
                             'introformat' => new external_format_value('intro', VALUE_OPTIONAL),
                             'requiredtimenotmet' => new external_value(PARAM_INT, 'Whether the time req is met', VALUE_OPTIONAL),
                             'emailteachers' => new external_value(PARAM_INT, 'Email teachers?', VALUE_OPTIONAL),
                             'emailothers' => new external_value(PARAM_RAW, 'Email others?', VALUE_OPTIONAL),
-                            'savecert' => new external_value(PARAM_INT, 'Save certificate?', VALUE_OPTIONAL),
-                            'reportcert' => new external_value(PARAM_INT, 'Report certificate?', VALUE_OPTIONAL),
+                            'savecert' => new external_value(PARAM_INT, 'Save originalcert?', VALUE_OPTIONAL),
+                            'reportcert' => new external_value(PARAM_INT, 'Report originalcert?', VALUE_OPTIONAL),
                             'delivery' => new external_value(PARAM_INT, 'Delivery options', VALUE_OPTIONAL),
                             'requiredtime' => new external_value(PARAM_INT, 'Required time', VALUE_OPTIONAL),
-                            'certificatetype' => new external_value(PARAM_RAW, 'Type', VALUE_OPTIONAL),
+                            'originalcerttype' => new external_value(PARAM_RAW, 'Type', VALUE_OPTIONAL),
                             'orientation' => new external_value(PARAM_ALPHANUM, 'Orientation', VALUE_OPTIONAL),
                             'borderstyle' => new external_value(PARAM_RAW, 'Border style', VALUE_OPTIONAL),
                             'bordercolor' => new external_value(PARAM_RAW, 'Border color', VALUE_OPTIONAL),
@@ -196,10 +196,10 @@ class mod_certificate_external extends external_api {
      *
      * @return external_function_parameters
      */
-    public static function view_certificate_parameters() {
+    public static function view_originalcert_parameters() {
         return new external_function_parameters(
             array(
-                'certificateid' => new external_value(PARAM_INT, 'certificate instance id')
+                'originalcertid' => new external_value(PARAM_INT, 'originalcert instance id')
             )
         );
     }
@@ -207,34 +207,34 @@ class mod_certificate_external extends external_api {
     /**
      * Trigger the course module viewed event and update the module completion status.
      *
-     * @param int $certificateid the certificate instance id
+     * @param int $originalcertid the originalcert instance id
      * @return array of warnings and status result
      * @throws moodle_exception
      */
-    public static function view_certificate($certificateid) {
+    public static function view_originalcert($originalcertid) {
         global $DB;
 
-        $params = self::validate_parameters(self::view_certificate_parameters(),
+        $params = self::validate_parameters(self::view_originalcert_parameters(),
                                             array(
-                                                'certificateid' => $certificateid
+                                                'originalcertid' => $originalcertid
                                             )
         );
         $warnings = array();
 
         // Request and permission validation.
-        $certificate = $DB->get_record('certificate', array('id' => $params['certificateid']), '*', MUST_EXIST);
-        list($course, $cm) = get_course_and_cm_from_instance($certificate, 'certificate');
+        $originalcert = $DB->get_record('originalcert', array('id' => $params['originalcertid']), '*', MUST_EXIST);
+        list($course, $cm) = get_course_and_cm_from_instance($originalcert, 'originalcert');
 
         $context = context_module::instance($cm->id);
         self::validate_context($context);
-        require_capability('mod/certificate:view', $context);
+        require_capability('mod/originalcert:view', $context);
 
-        $event = \mod_certificate\event\course_module_viewed::create(array(
-            'objectid' => $certificate->id,
+        $event = \mod_originalcert\event\course_module_viewed::create(array(
+            'objectid' => $originalcert->id,
             'context' => $context,
         ));
         $event->add_record_snapshot('course', $course);
-        $event->add_record_snapshot('certificate', $certificate);
+        $event->add_record_snapshot('originalcert', $originalcert);
         $event->trigger();
 
         $completion = new completion_info($course);
@@ -251,7 +251,7 @@ class mod_certificate_external extends external_api {
      *
      * @return external_description
      */
-    public static function view_certificate_returns() {
+    public static function view_originalcert_returns() {
         return new external_single_structure(
             array(
                 'status' => new external_value(PARAM_BOOL, 'status: true if success'),
@@ -261,34 +261,34 @@ class mod_certificate_external extends external_api {
     }
 
     /**
-     * Check if the user can issue certificates.
+     * Check if the user can issue originalcerts.
      *
-     * @param  int $certificateid certificate instance id
+     * @param  int $originalcertid originalcert instance id
      * @return array array containing context related data
      */
-    private static function check_can_issue($certificateid) {
+    private static function check_can_issue($originalcertid) {
         global $DB;
 
-        $certificate = $DB->get_record('certificate', array('id' => $certificateid), '*', MUST_EXIST);
-        list($course, $cm) = get_course_and_cm_from_instance($certificate, 'certificate');
+        $originalcert = $DB->get_record('originalcert', array('id' => $originalcertid), '*', MUST_EXIST);
+        list($course, $cm) = get_course_and_cm_from_instance($originalcert, 'originalcert');
 
         $context = context_module::instance($cm->id);
         self::validate_context($context);
-        require_capability('mod/certificate:view', $context);
+        require_capability('mod/originalcert:view', $context);
 
-        // Check if the user can view the certificate.
-        if ($certificate->requiredtime && !has_capability('mod/certificate:manage', $context)) {
-            if (certificate_get_course_time($course->id) < ($certificate->requiredtime * 60)) {
+        // Check if the user can view the originalcert.
+        if ($originalcert->requiredtime && !has_capability('mod/originalcert:manage', $context)) {
+            if (originalcert_get_course_time($course->id) < ($originalcert->requiredtime * 60)) {
                 $a = new stdClass();
-                $a->requiredtime = $certificate->requiredtime;
-                throw new moodle_exception('requiredtimenotmet', 'certificate', '', $a);
+                $a->requiredtime = $originalcert->requiredtime;
+                throw new moodle_exception('requiredtimenotmet', 'originalcert', '', $a);
             }
         }
-        return array($certificate, $course, $cm, $context);
+        return array($originalcert, $course, $cm, $context);
     }
 
     /**
-     * Returns a issued certificated structure
+     * Returns a issued originalcertd structure
      *
      * @return external_single_structure External single structure
      */
@@ -297,40 +297,40 @@ class mod_certificate_external extends external_api {
             array(
             'id' => new external_value(PARAM_INT, 'Issue id'),
             'userid' => new external_value(PARAM_INT, 'User id'),
-            'certificateid' => new external_value(PARAM_INT, 'Certificate id'),
-            'code' => new external_value(PARAM_RAW, 'Certificate code'),
+            'originalcertid' => new external_value(PARAM_INT, 'originalcert id'),
+            'code' => new external_value(PARAM_RAW, 'originalcert code'),
             'timecreated' => new external_value(PARAM_INT, 'Time created'),
             'filename' => new external_value(PARAM_FILE, 'Time created'),
             'fileurl' => new external_value(PARAM_URL, 'Time created'),
             'mimetype' => new external_value(PARAM_RAW, 'mime type'),
-            'grade' => new external_value(PARAM_NOTAGS, 'Certificate grade', VALUE_OPTIONAL),
+            'grade' => new external_value(PARAM_NOTAGS, 'originalcert grade', VALUE_OPTIONAL),
             )
         );
     }
 
     /**
-     * Add extra required information to the issued certificate
+     * Add extra required information to the issued originalcert
      *
      * @param stdClass $issue       issue object
-     * @param stdClass $certificate certificate object
+     * @param stdClass $originalcert originalcert object
      * @param stdClass $course      course object
      * @param stdClass $cm          course module object
      * @param stdClass $context     context object
      */
-    private static function add_extra_issue_data($issue, $certificate, $course, $cm, $context) {
+    private static function add_extra_issue_data($issue, $originalcert, $course, $cm, $context) {
         global $CFG;
 
         // Grade data.
-        if ($certificate->printgrade) {
-            $issue->grade = certificate_get_grade($certificate, $course);
+        if ($originalcert->printgrade) {
+            $issue->grade = originalcert_get_grade($originalcert, $course);
         }
 
         // File data.
         $issue->mimetype = 'application/pdf';
-        $issue->filename = certificate_get_certificate_filename($certificate, $cm, $course) . '.pdf';
-        // We need to use a special file area to be able to download certificates (in most cases are not stored in the site).
+        $issue->filename = originalcert_get_originalcert_filename($originalcert, $cm, $course) . '.pdf';
+        // We need to use a special file area to be able to download originalcerts (in most cases are not stored in the site).
         $issue->fileurl = moodle_url::make_webservice_pluginfile_url(
-                                $context->id, 'mod_certificate', 'onthefly', $issue->id, '/', $issue->filename)->out(false);
+                                $context->id, 'mod_originalcert', 'onthefly', $issue->id, '/', $issue->filename)->out(false);
     }
 
     /**
@@ -338,36 +338,36 @@ class mod_certificate_external extends external_api {
      *
      * @return external_function_parameters
      */
-    public static function issue_certificate_parameters() {
+    public static function issue_originalcert_parameters() {
         return new external_function_parameters(
             array(
-                'certificateid' => new external_value(PARAM_INT, 'certificate instance id')
+                'originalcertid' => new external_value(PARAM_INT, 'originalcert instance id')
             )
         );
     }
 
     /**
-     * Create new certificate record, or return existing record.
+     * Create new originalcert record, or return existing record.
      *
-     * @param int $certificateid the certificate instance id
+     * @param int $originalcertid the originalcert instance id
      * @return array of warnings and status result
      * @throws moodle_exception
      */
-    public static function issue_certificate($certificateid) {
+    public static function issue_originalcert($originalcertid) {
         global $USER;
 
-        $params = self::validate_parameters(self::issue_certificate_parameters(),
+        $params = self::validate_parameters(self::issue_originalcert_parameters(),
                                             array(
-                                                'certificateid' => $certificateid
+                                                'originalcertid' => $originalcertid
                                             )
         );
         $warnings = array();
 
         // Request and permission validation.
-        list($certificate, $course, $cm, $context) = self::check_can_issue($params['certificateid']);
+        list($originalcert, $course, $cm, $context) = self::check_can_issue($params['originalcertid']);
 
-        $issue = certificate_get_issue($course, $USER, $certificate, $cm);
-        self::add_extra_issue_data($issue, $certificate, $course, $cm, $context);
+        $issue = originalcert_get_issue($course, $USER, $originalcert, $cm);
+        self::add_extra_issue_data($issue, $originalcert, $course, $cm, $context);
 
         $result = array();
         $result['issue'] = $issue;
@@ -380,7 +380,7 @@ class mod_certificate_external extends external_api {
      *
      * @return external_description
      */
-    public static function issue_certificate_returns() {
+    public static function issue_originalcert_returns() {
         return new external_single_structure(
             array(
                 'issue' => self::issued_structure(),
@@ -394,38 +394,38 @@ class mod_certificate_external extends external_api {
      *
      * @return external_function_parameters
      */
-    public static function get_issued_certificates_parameters() {
+    public static function get_issued_originalcerts_parameters() {
         return new external_function_parameters(
             array(
-                'certificateid' => new external_value(PARAM_INT, 'certificate instance id')
+                'originalcertid' => new external_value(PARAM_INT, 'originalcert instance id')
             )
         );
     }
 
     /**
-     * Get the list of issued certificates for the current user.
+     * Get the list of issued originalcerts for the current user.
      *
-     * @param int $certificateid the certificate instance id
+     * @param int $originalcertid the originalcert instance id
      * @return array of warnings and status result
      * @throws moodle_exception
      */
-    public static function get_issued_certificates($certificateid) {
+    public static function get_issued_originalcerts($originalcertid) {
 
-        $params = self::validate_parameters(self::get_issued_certificates_parameters(),
+        $params = self::validate_parameters(self::get_issued_originalcerts_parameters(),
                                             array(
-                                                'certificateid' => $certificateid
+                                                'originalcertid' => $originalcertid
                                             )
         );
         $warnings = array();
 
         // Request and permission validation.
-        list($certificate, $course, $cm, $context) = self::check_can_issue($params['certificateid']);
+        list($originalcert, $course, $cm, $context) = self::check_can_issue($params['originalcertid']);
 
-        $issues = certificate_get_attempts($certificate->id);
+        $issues = originalcert_get_attempts($originalcert->id);
 
         if ($issues !== false ) {
             foreach ($issues as $issue) {
-                self::add_extra_issue_data($issue, $certificate, $course, $cm, $context);
+                self::add_extra_issue_data($issue, $originalcert, $course, $cm, $context);
 
             }
         } else {
@@ -443,7 +443,7 @@ class mod_certificate_external extends external_api {
      *
      * @return external_description
      */
-    public static function get_issued_certificates_returns() {
+    public static function get_issued_originalcerts_returns() {
         return new external_single_structure(
             array(
                 'issues' => new external_multiple_structure(self::issued_structure()),
