@@ -131,7 +131,7 @@ originalcert_print_image($pdf, $originalcert, CERT_IMAGE_SIGNATURE, $sigx, $sigy
 
 // Add text
 $pdf->SetTextColor(229, 27, 36);
-originalcert_print_text($pdf, $x, $y - 20, 'C', 'caladeab', '', 40, 'originalcert of Achievement');
+originalcert_print_text($pdf, $x, $y - 20, 'C', 'caladeab', '', 40, 'Certificate of Achievement');
 originalcert_print_text($pdf, $x, $y - 2, 'C', 'caladeab', '', 28, 'Short Course: ' . format_string($course->fullname));
 
 $pdf->SetTextColor(0, 0, 0);
@@ -140,7 +140,9 @@ originalcert_print_text($pdf, $x, $y + 46, 'C', 'carlitob', '', 20, fullname($US
 originalcert_print_text($pdf, $x, $y + 60, 'C', 'carlito', '', 14, 'has successfully completed the Short Course');
 originalcert_print_text($pdf, $x, $y + 70, 'C', 'carlitob', '', 20, format_string($course->fullname));
 
-originalcert_print_text($pdf, $x, $y + 85, 'C', 'carlito', '', 14, 'Grade: ' . originalcert_get_itm_grade($originalcert, $course));
+if ($originalcert->printgrade > 0) {
+	originalcert_print_text($pdf, $x, $y + 85, 'C', 'carlito', '', 14, 'Grade: ' . originalcert_get_itm_grade($originalcert, $course));
+}
 if ($originalcert->printteacher) {
     $context = context_module::instance($cm->id);
     if ($teachers = get_users_by_capability($context, 'mod/originalcert:printteacher', '', $sort = 'u.lastname ASC', '', '', '', '', false)) {
@@ -163,7 +165,9 @@ if ($originalcert->printteacher) {
         }
     }
 }
-originalcert_print_text($pdf, $x, $y + 109, 'C', 'carlito', '', 14, 'Completed: ' . originalcert_get_date($originalcert, $certrecord, $course));
+if ($originalcert->printdate > 0) {
+	originalcert_print_text($pdf, $x, $y + 109, 'C', 'carlito', '', 14, 'Completed: ' . originalcert_get_date($originalcert, $certrecord, $course));
+}
 originalcert_print_text($pdf, $x, $y + 129, 'C', 'carlito', '', 14, originalcert_get_outcome($originalcert, $course));
 if ($originalcert->printhours) {
     originalcert_print_text($pdf, $x, $y + 139, 'C', 'carlito', '', 14, get_string('credithours', 'originalcert') . ': ' . $originalcert->printhours);
